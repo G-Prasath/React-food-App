@@ -8,6 +8,7 @@ export const Footer = () => {
         <div className="footer-content">
             <div className="footer-content-left">
                 <img src={assets.logo} alt="Logo" />
+
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vel, quis ab. Earum consequatur quisquam vero velit accusamus culpa commodi exercitationem.</p>
                 <div className="footer-social-icons">
                     <img src={assets.facebook_icon} alt="Facebook" />
