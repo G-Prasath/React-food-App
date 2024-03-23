@@ -1,11 +1,31 @@
-require('dotenv').config()
+require('dotenv').config();
 const mongoose = require('mongoose');
 
-async function dbConnect() {
-    const Key = process.env.MONGODB_KEY
-    const db = await mongoose.connect(Key);
-    return db
+class DBConnector {
+    constructor() {
+        this.connection = null;
+    }
+
+    async connect() {
+        try {
+            const key = process.env.MONGODB_KEY;
+            this.connection = await mongoose.connect(key);
+        } catch (error) {
+            console.error("Error connecting to MongoDB:", error);
+        }
+    }
+
+    async disconnect() {
+        if (this.connection) {
+            await mongoose.disconnect();
+            console.log("MongoDB disconnected.");
+        }
+    }
+
+    getConnection() {
+        return this.connection;
+    }
 }
 
-module.exports = dbConnect;
+module.exports = DBConnector;
 

@@ -1,18 +1,39 @@
+require('dotenv').config()
 const express = require("express");
-const mongoose = require('mongoose')
-const dbConnection = require('./api/conn.js')
+const DBConnector = require('./api/conn')
+const userRoute = require('./routes/register.route.js')
 const app = express();
 
 
-dbConnection().then(() => {
-    try {
-        app.listen(port, () => {
-            console.log(`Server Connected`);
-        })
-    }catch(error){
-        // console.log('Can not connect Server');
-        console.error('Error:', error);
-    }
-}).catch(error => {
-    console.log('Database connection Invalide ...!');
+/** Middleware */
+app.use(express.json());
+app.use(express.urlencoded({extended: false}))
+
+/** New DB Connection */
+const db = new DBConnector()
+
+/** routes */
+app.use('/api/register', userRoute);
+
+/** Default Routes */
+app.get('/', (req, res) => {
+    res.send("HEllo won This Home Page")
 })
+
+
+
+
+
+
+
+
+db.connect().then(() => {
+    try {
+        app.listen(process.env.PORT, () => {
+            console.log(`Server Connected`);
+        });
+    } catch (error) {
+        console.log(error);
+    }
+}).catch((error) => console.log(error))
+
